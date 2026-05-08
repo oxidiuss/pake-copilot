@@ -31,6 +31,7 @@ jobs:
         run: pake https://copilot.microsoft.com/ --name "Microsoft Copilot" --icon ""
 
       - name: List generated files
+        shell: bash
         run: ls -la
 
       - name: Find and upload artifact
