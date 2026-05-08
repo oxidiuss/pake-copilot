@@ -1,0 +1,37 @@
+name: Build Pake App (Windows)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install Pake
+        run: npm install -g pake-cli
+
+      - name: Build Microsoft Copilot
+        run: pake https://copilot.microsoft.com/ --name "Microsoft Copilot" --icon ""
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Microsoft-Copilot
+          path: .\*.exe
