@@ -14,13 +14,13 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: 9
 
@@ -30,8 +30,14 @@ jobs:
       - name: Build Microsoft Copilot
         run: pake https://copilot.microsoft.com/ --name "Microsoft Copilot" --icon ""
 
-      - name: Upload artifact
+      - name: List generated files
+        run: ls -la
+
+      - name: Find and upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Microsoft-Copilot
-          path: .\*.exe
+          path: |
+            *.exe
+            **/*.exe
+          if-no-files-found: warn
